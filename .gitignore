@@ -7,6 +7,9 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 
+*.pyc
+__pycache__/main.cpython-313.pyc
+
 
 venv
 myvenv
