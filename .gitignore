@@ -10,7 +10,9 @@ lerna-debug.log*
 *.pyc
 __pycache__/main.cpython-313.pyc
 
-
+.venv
+.venv/
+.vevn/*
 venv
 myvenv
 .env
