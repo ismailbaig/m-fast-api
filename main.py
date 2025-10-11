@@ -2,11 +2,12 @@ from bson import ObjectId
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
-
+from db_mongo.get_data import get_single_student_info, get_all_student_details
+from db_mongo.registerUser import insert_register_user
+from models.register_model import RegisterModel
+# from db_mongo.insert_data import insert_studentdetails, user_json
 
 app = FastAPI()
-
-
 
 # If you want to allow *all* origins (i.e. fully global)
 origins = ["*"]
@@ -27,34 +28,36 @@ app.add_middleware(
     # optionally: expose_headers, allow_origin_regex, max_age, etc.
 )
 
-
-# MongoDB connection
-client = AsyncIOMotorClient("mongodb://localhost:27017")
-db = client.mschooldb
-collection = db.studentdetails
-
-def serialize_doc(doc):
-    doc["_id"] = str(doc["_id"])
-    return doc
-
 # Then define your endpoints
 @app.get("/")
-async def some_endpoint():
+async def base_endpoint():
     return {"msg": "Hello from FastAPI!"}
 
-@app.get("/getuserdetails")
-async def get_user_details():
-    users_cursor = collection.find()
-    users = await users_cursor.to_list(length=100)
-    return [serialize_doc(user) for user in users]
+@app.get("/getallstudents")
+async def get_all_students_info():
+    all_student_details = await get_all_student_details()
+    return all_student_details
 
 @app.get("/users/{user_id}")
 async def get_user(user_id: int):
-    user = await collection.find_one({"user_id": user_id})
-    if not user:
-        return {"error": "User not found"}
-    return serialize_doc(user)
+    single_student_info = await get_single_student_info(user_id)
+    if "error" in single_student_info:
+        raise HTTPException(status_code=404, detail=single_student_info["error"])
+    return single_student_info
 
+@app.get("/add/student")
+async def add_student():
+   # inserted_id = await insert_studentdetails(user_json)
+    return {"message": "User inserted successfully", "id":14}
+
+@app.post("/reg/user")
+async def register_user(registeruser: RegisterModel):
+    inserted_id = await insert_register_user(registeruser)
+    if inserted_id == -1:
+        return {"error": "User Already existes. Check again !!!", "id": inserted_id}
+    return {"message": "Registerd User inserted successfully", "id": inserted_id}
+
+    
 
 # @app.get("/users/update/{user_id}")
 # async def update_user(user_id: int):
