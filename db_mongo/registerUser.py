@@ -10,16 +10,11 @@ collection = db["registerdetails"]
 
 async def insert_register_user(registeredUserDetails: RegisterModel):
     user = await collection.find_one({"email": registeredUserDetails.email})
-    if user:
-        return {
-            "already": True,
-            "inserted": False
-        }
-    result =  await collection.insert_one(registeredUserDetails.dict())
-    return  {
-                "already": False,
-                "inserted": True
-            }
+    if user is not None:
+        return str(-1)
+    result =  await collection.insert_one(registeredUserDetails)
+    return str(result.inserted_id)
+
 
 
 

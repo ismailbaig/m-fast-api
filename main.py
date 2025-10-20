@@ -52,23 +52,12 @@ async def add_student():
 
 @app.post("/reg/user")
 async def register_user(registeruser: RegisterModel):
-    result = await insert_register_user(registeruser)
-        
-    if result["inserted"]:
-        return {
-            "success": True,
-            "message": "User Registered Successfully"
-        }
-    if result["already"]:
-        return {
-            "success": False,
-            "message": "User Already Registered"
-        }
-    else:
-        return {
-            "success": False,
-            "message": "Something Went Wrong"
-        }
+    inserted_id = await insert_register_user(registeruser)
+    if inserted_id == -1:
+        return {"error": "User Already existes. Check again !!!", "id": inserted_id}
+    return {"message": "Registerd User inserted successfully", "id": inserted_id}
+
+    
 
 # @app.get("/users/update/{user_id}")
 # async def update_user(user_id: int):
