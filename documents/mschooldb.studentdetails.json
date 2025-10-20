@@ -1,0 +1,54 @@
+[{
+  "_id": {
+    "$oid": "68e60778462fd87134546482"
+  },
+  "name": "Shaik Sameer 1",
+  "age": 21,
+  "address": {
+    "houseno": "#45-644 A1",
+    "street": "Gadda",
+    "city": "kurnool",
+    "state": "Andhra Pradesh"
+  },
+  "user_id": 1,
+  "skills": [
+    ""
+  ]
+},
+{
+  "_id": {
+    "$oid": "68e60953462fd87134546487"
+  },
+  "name": "Abdul Wajid Hafiz",
+  "age": 21,
+  "address": {
+    "houseno": "#63-664 A2",
+    "street": "Gadda",
+    "city": "kurnool",
+    "state": "Andhra Pradesh"
+  },
+  "user_id": 2,
+  "skills": [
+    ""
+  ]
+},
+{
+  "_id": {
+    "$oid": "68e7fce8c91db1f40e5fa44d"
+  },
+  "name": "Ismail Baig",
+  "email": "ismail@example.com",
+  "age": 29,
+  "address": {
+    "houseno": "#41-444 A1",
+    "street": "Kotha Peta",
+    "city": "kurnool",
+    "state": "Andhra Pradesh"
+  },
+  "skills": [
+    "Python",
+    "FastAPI",
+    "MongoDB"
+  ],
+  "user_id": 3
+}]

@@ -1,0 +1,24 @@
+[{
+  "_id": {
+    "$oid": "68ea00bf43ea86d2999652ec"
+  },
+  "firstName": "Shaik",
+  "lastName": "Sameer",
+  "email": "shaiksameer868822@gmail.com",
+  "pd": "sameer@123",
+  "cpd": "sameer@123",
+  "mobile": "+919886626161",
+  "uniqueId": 1
+},
+{
+  "_id": {
+    "$oid": "68ea09482bcbe36daf1adc12"
+  },
+  "firstName": "Junaid",
+  "lastName": "Malik",
+  "email": "junaidsap9@gmail.com",
+  "pd": "123",
+  "cpd": "123",
+  "mobile": "+911234567890",
+  "uniqueId": 2
+}]
