@@ -1,11 +1,15 @@
 from bson import ObjectId
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from motor.motor_asyncio import AsyncIOMotorClient
 from db_mongo.get_data import get_single_student_info, get_all_student_details
-from db_mongo.registerUser import insert_register_user
+from db_mongo.register_and_login import check_login_user_name, check_login_user_pd, insert_register_user
 from models.register_model import RegisterModel
 # from db_mongo.insert_data import insert_studentdetails, user_json
+from login.login import get_current_user
+from models.schemas import UserLogin, UserResponse
+from models.tokenResponse import TokenResponse
+from login import jwt_auth
 
 app = FastAPI()
 
@@ -57,7 +61,47 @@ async def register_user(registeruser: RegisterModel):
         return {"error": "User Already existes. Check again !!!", "id": inserted_id}
     return {"message": "Registerd User inserted successfully", "id": inserted_id}
 
+
+# Login user
+@app.post("/api/login", response_model=TokenResponse, tags=["Authentication"])
+async def login_user(credentials: UserLogin):
+    """
+    Login with username and password to receive an authentication token.
+
+    - **username/email**: The username/email of the user.
+    - **password**: The password of the user.
+
+    Returns a JWT token upon successful authentication.
+
+    """
+    user = await check_login_user_name(credentials.username)
     
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Invalid credentials"
+        )
+    
+    user = await check_login_user_pd(credentials.password)
+    
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED, 
+            detail="Invalid credentials"
+        )
+
+    token = jwt_auth.generate_token(user_id=user.user_id, username=user.username)
+
+    return TokenResponse(
+        message="Login successful",
+        user=UserResponse(
+            user_id=user.user_id,
+            username=user.username,
+            email=user.email
+        ),
+        access_token=token, token_type="bearer"
+        )
+
 
 # @app.get("/users/update/{user_id}")
 # async def update_user(user_id: int):
