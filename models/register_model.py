@@ -5,8 +5,9 @@ class RegisterModel(BaseModel):
 
     firstName: str
     lastName: str
+    userName: str
     email: str
     pd: str
     cpd: str
     mobile: str
-    uniqueId: int
+    role: str
