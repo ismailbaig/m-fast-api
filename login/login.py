@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 from typing import Optional
 from pydantic import BaseModel
 
-from auth import JWTAuth
+# from auth import JWTAuth
 from db_mongo.register_and_login import get_login_user
 
 #Security scheme for HTTP Bearer authentication
@@ -19,7 +19,7 @@ SECRET_KEY = "mySecretKey123" # change this in production
 ALGORITHM = "HS256"
 TOKEN_EXPIRE_MINUTES = 5 # Token expiry time in minutes ( configurable )
 
-jwt_auth = JWTAuth(secret_key=SECRET_KEY, alg=ALGORITHM, token_expiry_minutes=TOKEN_EXPIRE_MINUTES)
+jwt_auth = "this can be deleted later. Not using" # JWTAuth(secret_key=SECRET_KEY, alg=ALGORITHM, token_expiry_minutes=TOKEN_EXPIRE_MINUTES)
 
 async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> dict:
     """

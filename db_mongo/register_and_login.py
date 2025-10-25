@@ -1,9 +1,8 @@
 from motor.motor_asyncio import AsyncIOMotorClient
-from utility.utility import serialize_doc
-from models.register_model import RegisterModel
 from fastapi.encoders import jsonable_encoder
 
-
+from models.register_model import RegisterModel
+from utility.utility import serialize_doc
 
 
 client = AsyncIOMotorClient("mongodb://localhost:27017")
@@ -23,8 +22,8 @@ async def get_login_user (user_id: int):
         return {"error": "User not found"}
     return serialize_doc(user)
 
-async def check_login_user_name (email: str):
-    user = await collection.find_one({"email": email})
+async def check_login_user_name (userName: str):
+    user = await collection.find_one({"userName": userName})
     if not user:
         return None
     return serialize_doc(user)
