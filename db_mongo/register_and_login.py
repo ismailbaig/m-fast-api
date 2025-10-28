@@ -1,13 +1,20 @@
 from motor.motor_asyncio import AsyncIOMotorClient
 from fastapi.encoders import jsonable_encoder
 
-from models.register_model import RegisterModel
+from models.register_model import RegisterModel, LoginModel
 from utility.utility import serialize_doc
 
 
 client = AsyncIOMotorClient("mongodb://localhost:27017")
 db = client["mschooldb"]
 collection = db["registerdetails"]
+
+async def login_user(loginUser: LoginModel):
+
+    user = await collection.find_one({"email": loginUser.email, "pd": loginUser.pd})
+    if user is None:
+        return None
+    return user
 
 async def insert_register_user(registeredUserDetails: RegisterModel):
     user = await collection.find_one({"email": registeredUserDetails.email})
