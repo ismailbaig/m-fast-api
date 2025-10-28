@@ -1,4 +1,4 @@
-from pydantic import BaseModel
+from pydantic import BaseModel, EmailStr
 
 
 class RegisterModel(BaseModel):
@@ -11,3 +11,7 @@ class RegisterModel(BaseModel):
     cpd: str
     mobile: str
     role: str
+    
+class LoginModel(BaseModel):
+    email: EmailStr
+    pd: str
